@@ -1,0 +1,22 @@
+form {
+    background-color: aliceblue;
+    border-style: dotted;
+}
+
+.meal-list {
+    color: red;
+    height: 100px;
+    border-style: solid solid none solid;
+}
+
+.meal-list-wrap {
+    listStyleType: none;
+    borderStyle: none none solid none;
+}
+
+.meal-div {
+    color: blue;
+    display: inline-block;
+    width: 200px;
+    verticalAlign: top;
+}

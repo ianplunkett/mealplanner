@@ -13,31 +13,18 @@ const daysOfTheWeek = [
 // Meal Plan Display Classes
 class Meal extends React.Component {
     render() {
-        const liStyle = {
-            color: 'red',
-            height: '100px',
-            borderStyle: 'solid solid none solid'
-        };
-        return <li style={liStyle}>{this.props.meal}</li>;
+        return <li className="meal-list">{this.props.meal}</li>;
     }
 }
 class Day extends React.Component {
     render() {
-
-        const divStyle = {
-            color: 'blue',
-            display: 'inline-block',
-            width: '200px',
-            verticalAlign: 'top'
-
-        };
         const ulStyle = {
             listStyleType: 'none',
             borderStyle: 'none none solid none'
         };
 
         return (
-            <div style={divStyle}>
+            <div className="meal-div">
                 <ul style={ulStyle}>
                     <li>{this.props.meals.day}</li>
                     <Meal meal={this.props.meals.lunch} />
@@ -56,8 +43,7 @@ class Calendar extends React.Component {
     render() {
 
         const daysOfWeek = this.props.meals.map(
-            (day) =>
-                <Day meals={day} />
+            (day) => <Day key={day.day} meals={day} />
         );
 
         return (
@@ -73,7 +59,6 @@ class Calendar extends React.Component {
 class NewMeal extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             day: 'Sunday',
             lunch: 'Food',
@@ -81,7 +66,6 @@ class NewMeal extends React.Component {
 
         };
     }
-
 
     handleLunchChange = (event) => {
         this.setState({ lunch: event.target.value });
@@ -102,7 +86,7 @@ class NewMeal extends React.Component {
     render() {
         const daysOfWeek = daysOfTheWeek.map(
             (day) =>
-                <option value={day}>{day}</option>
+                <option key={day} value={day}>{day}</option>
         );
 
         return (
