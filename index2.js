@@ -54,8 +54,6 @@ class Calendar extends React.Component {
         this.state = { meals: this.props.meals };
     }
     render() {
-        console.log('Render Calendar');
-        console.log(this.props.meals);
 
         const daysOfWeek = this.props.meals.map(
             (day) =>
@@ -77,22 +75,20 @@ class NewMeal extends React.Component {
         super(props);
 
         this.state = {
-            mealTime: 'lunch',
             day: 'Sunday',
-            value: '',
-            checked: true
+            lunch: 'Food',
+            dinner: 'Food'
+
         };
     }
 
-    handleRadioChange = (event) => {
-        this.setState({
-            checked: !this.state.checked,
-            mealTime: event.target.value
-        });
+
+    handleLunchChange = (event) => {
+        this.setState({ lunch: event.target.value });
     }
 
-    handleTextChange = (event) => {
-        this.setState({ value: event.target.value });
+    handleDinnerChange = (event) => {
+        this.setState({ dinner: event.target.value });
     }
 
     handleSelectChange = (event) => {
@@ -116,15 +112,16 @@ class NewMeal extends React.Component {
 		    <input type="text"
                         id="lunch"
                         value={this.state.lunch}
-                        onChange={this.handleTextChange} />
+                        onChange={this.handleLunchChange} />
+
                 </label>
                 <br />
                 <label>
-                    Lunch:
+                    Dinner:
 		    <input type="text"
                         id="dinner"
                         value={this.state.dinner}
-                        onChange={this.handleTextChange} />
+                        onChange={this.handleDinnerChange} />
                 </label>
                 <br />
                 <label>
@@ -132,22 +129,6 @@ class NewMeal extends React.Component {
 		    <select onChange={this.handleSelectChange}>
                         {daysOfWeek}
                     </select>
-                </label>
-                <br />
-                <label>
-                    Lunch:
-          <input type="radio"
-                        value="Lunch"
-                        checked={this.state.checked}
-                        onChange={this.handleRadioChange} />
-                </label>
-                <br />
-                <label>
-                    Dinner:
-          <input type="radio"
-                        value="Dinner"
-                        checked={!this.state.checked}
-                        onChange={this.handleRadioChange} />
                 </label>
                 <br />
                 <input type="submit" value="Submit" />
@@ -162,8 +143,6 @@ class MealPlanner extends React.Component {
     }
 
     render() {
-        console.log('Render MealPlanner');
-        console.log(this.props.meals);
         let date = new Date();
         date = date.getMonth() + '-' + date.getDate();
         return (
@@ -187,19 +166,20 @@ class App extends React.Component {
 
 
     handleMealChange = (meal) => {
-        const aMeal = {
-            day: meal.day,
-            lunch: meal.value,
-            dinner: meal.value
-        };
-        console.log('A Meal');
-        console.log(aMeal);
-        this.setState({ meals: [aMeal] });
+        let newMeals = this.state.meals;
+        for (let i = 0; i < this.state.meals.length; i++) {
+            if (this.state.meals[i].day === meal.day) {
+                console.log(newMeals);
+                newMeals[i] = meal;
+                console.log(newMeals);
+                console.log(newMeals);
+            }
+        }
+        this.setState({ meals: newMeals });
+
     }
 
     render() {
-        console.log('Render App');
-        console.log(this.state.meals);
         return <MealPlanner meals={this.state.meals} onMealChange={this.handleMealChange} />;
     }
 
