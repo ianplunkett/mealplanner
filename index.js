@@ -18,14 +18,9 @@ class Meal extends React.Component {
 }
 class Day extends React.Component {
     render() {
-        const ulStyle = {
-            listStyleType: 'none',
-            borderStyle: 'none none solid none'
-        };
-
         return (
             <div className="meal-div">
-                <ul style={ulStyle}>
+                <ul className="meal-list-wrap">
                     <li>{this.props.meals.day}</li>
                     <Meal meal={this.props.meals.lunch} />
                     <Meal meal={this.props.meals.dinner} />
@@ -153,10 +148,7 @@ class App extends React.Component {
         let newMeals = this.state.meals;
         for (let i = 0; i < this.state.meals.length; i++) {
             if (this.state.meals[i].day === meal.day) {
-                console.log(newMeals);
                 newMeals[i] = meal;
-                console.log(newMeals);
-                console.log(newMeals);
             }
         }
         this.setState({ meals: newMeals });
