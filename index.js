@@ -22,7 +22,7 @@ class Day extends React.Component {
             <div className="meal-div">
                 <ul className="meal-list-wrap">
                     <li>{this.props.meals.day}</li>
-                    <Meal meal={this.props.meals.lunch} />
+                    <a href={"?" + this.props.meals.lunch}><Meal meal={this.props.meals.lunch} /></a>
                     <Meal meal={this.props.meals.dinner} />
                 </ul>
             </div>
@@ -88,7 +88,7 @@ class NewMeal extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Lunch:
-		    <input type="text"
+	  <input type="text"
                         id="lunch"
                         value={this.state.lunch}
                         onChange={this.handleLunchChange} />
@@ -97,7 +97,7 @@ class NewMeal extends React.Component {
                 <br />
                 <label>
                     Dinner:
-		    <input type="text"
+	  <input type="text"
                         id="dinner"
                         value={this.state.dinner}
                         onChange={this.handleDinnerChange} />
@@ -105,7 +105,7 @@ class NewMeal extends React.Component {
                 <br />
                 <label>
                     Day:
-		    <select onChange={this.handleSelectChange}>
+	  <select onChange={this.handleSelectChange}>
                         {daysOfWeek}
                     </select>
                 </label>
@@ -140,9 +140,18 @@ class MealPlanner extends React.Component {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { meals: this.props.meals };
+        this.state = {
+            meals: this.props.meals,
+            recipe: this.newRecipe()
+        };
+        console.log(this.state);
     }
 
+    newRecipe = () => {
+        const url = new URL(window.location.href);
+        //Strip leading `?' and URL Encoded Spaces
+        return url.search.replace(/^\?/, '').split('%20').join(" ");
+    }
 
     handleMealChange = (meal) => {
         let newMeals = this.state.meals;
@@ -151,15 +160,99 @@ class App extends React.Component {
                 newMeals[i] = meal;
             }
         }
-        this.setState({ meals: newMeals });
+
+        this.setState({
+            meals: newMeals,
+            recipe: this.newRecipe()
+        });
 
     }
 
     render() {
-        return <MealPlanner meals={this.state.meals} onMealChange={this.handleMealChange} />;
+        if (this.state.recipe === "")
+            return <MealPlanner meals={this.state.meals} onMealChange={this.handleMealChange} />;
+        else
+            return <RecipePlanner recipe={this.state.recipe} />;
+
+    }
+}
+
+class RecipePlanner extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = ({ item: '', amount: '' });
     }
 
+    handleSubmit = (event) => {
+        console.log('handleSubmit');
+        console.log(this.state);
+        event.preventDefault();
+    }
+
+    handleItemChange = (event) => {
+        console.log('handleItemChange');
+        this.setState({ item: event.target.value });
+    }
+    handleAmountChange = (event) => {
+        console.log('handleAmountChange');
+        this.setState({ amount: event.target.value });
+    }
+    render() {
+        return (
+            <div>
+                <h1>{this.props.recipe}</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Item</td>
+                                <td>Amount</td>
+                            </tr>
+                            <Ingredient
+                                items={[this.state.item, this.state.amount]} />
+                            <tr>
+                                <td>
+                                    <input
+                                        type="text"
+                                        value={this.state.item}
+                                        onChange={this.handleItemChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        value={this.state.amount}
+                                        onChange={this.handleAmountChange}
+                                    />
+                                </td>
+                                <td><input type="submit" value="Next" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        );
+    }
 }
+
+
+class Ingredient extends React.Component {
+    constructor(props) {
+        super(props);
+        console.log('Ingredient');
+        console.log(this.props);
+        this.state = ({});
+    }
+
+    render() {
+        return (
+            <tr>
+                <td>{this.props.items}</td>
+            </tr>
+        );
+    }
+}
+
 
 const meals = JSON.parse(document.getElementsByClassName('meals').item(0).attributes[1].value);
 ReactDOM.render(<App meals={meals} />, document.getElementById('root'));
