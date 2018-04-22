@@ -23,8 +23,12 @@ class Day extends React.Component {
       <div className="meal-div">
         <ul className="meal-list-wrap">
           <li>{this.props.meals.day}</li>
-          <a href={"?" + this.props.meals.lunch}><Meal meal={this.props.meals.lunch} /></a>
-          <Meal meal={this.props.meals.dinner} />
+          <a href={"?" + this.props.meals.lunch}>
+	    <Meal meal={this.props.meals.lunch} />
+	  </a>
+	  <a href={"?" + this.props.meals.dinner}>
+	    <Meal meal={this.props.meals.dinner} />
+	  </a>
         </ul>
       </div>
     );
@@ -143,7 +147,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       meals: this.props.meals,
-      ingredients: [{item: '', amount: ''}],
+      ingredients: [],
       recipe: this.newRecipe()
     };
 
@@ -170,6 +174,15 @@ class App extends React.Component {
 
   }
 
+  handleRemoveIngredient = (id) => {
+    let ingredients = this.state.ingredients;
+    ingredients.splice(id,1);
+    this.setState({
+      ingredients: ingredients
+    });
+  }
+
+
   handleIngredientChange = (item, amount) => {
     this.state.ingredients.push({item: item, amount: amount});
     this.setState({
@@ -179,13 +192,18 @@ class App extends React.Component {
 
   render() {
     if (this.state.recipe === "")
-      return <MealPlanner meals={this.state.meals} onMealChange={this.handleMealChange} />;
+      return (
+	<MealPlanner
+	  meals={this.state.meals}
+	  onMealChange={this.handleMealChange} />
+      );
     else
       return (
 	<RecipePlanner
 	  recipe={this.state.recipe}
 	  ingredients={this.state.ingredients}
-	  onIngredientChange={this.handleIngredientChange}/>
+	  onIngredientChange={this.handleIngredientChange}
+	  onRemoveIngredient={this.handleRemoveIngredient}/>
       );
   }
 }
@@ -198,6 +216,8 @@ class RecipePlanner extends React.Component {
 
   handleSubmit = (event) => {
     this.props.onIngredientChange(this.state.item, this.state.amount);
+    this.setState({item: '', amount: '', instructions: ''});
+    this.nameInput.focus();
     event.preventDefault();
   }
 
@@ -207,6 +227,11 @@ class RecipePlanner extends React.Component {
   handleAmountChange = (event) => {
     this.setState({ amount: event.target.value });
   }
+
+  componentDidMount() {
+    this.nameInput.focus();
+  }
+
   render() {
     return (
       <div>
@@ -217,14 +242,17 @@ class RecipePlanner extends React.Component {
               <tr>
                 <td>Item</td>
                 <td>Amount</td>
+		<td>Remove</td>
               </tr>
               <Ingredient
-                items={this.props.ingredients} />
+                items={this.props.ingredients}
+		onRemoveIngredient={this.props.onRemoveIngredient} />
               <tr>
                 <td>
                   <input
                     type="text"
                     value={this.state.item}
+		    ref={(input)=> this.nameInput = input}
                     onChange={this.handleItemChange}
                     />
                 </td>
@@ -237,6 +265,14 @@ class RecipePlanner extends React.Component {
                 </td>
                 <td><input type="submit" value="Next" /></td>
               </tr>
+	      <tr>
+		<td>Cooking Instructions</td>
+	      </tr>
+	      <tr>
+		<td>
+		  <textarea value={this.state.instructions} />
+		</td>
+	      </tr>
             </tbody>
           </table>
         </form>
@@ -251,15 +287,19 @@ class Ingredient extends React.Component {
     super(props);
   }
 
+  handleRemoveIngredient = (event) => {
+    this.props.onRemoveIngredient(event.target.id);
+    event.preventDefault();
+  }
+
   render() {
-    console.log('Ingredient');
-    console.log(this.props);
     const ingredients = this.props.items.map(
-      (item) => (
-      <tr>
-        <td>{item.item}</td>
-	<td>{item.amount}</td>
-      </tr>
+      (item, key) => (
+	<tr key={key}>
+          <td>{item.item}</td>
+	  <td>{item.amount}</td>
+	  <td><a id={key} href="" onClick={this.handleRemoveIngredient}>X</a></td>
+	</tr>
       )
     );
 
