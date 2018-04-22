@@ -18,15 +18,22 @@ class Meal extends React.Component {
 }
 
 class Day extends React.Component {
+
+  showRecipeHandler = (event) => {
+    console.log(event.target.textContent);
+    this.props.onShowRecipe(event.target.textContent);
+    event.preventDefault();
+  }
+
   render() {
     return (
       <div className="meal-div">
         <ul className="meal-list-wrap">
           <li>{this.props.meals.day}</li>
-          <a href={"?" + this.props.meals.lunch}>
+          <a href="" onClick={this.showRecipeHandler}>
 	    <Meal meal={this.props.meals.lunch} />
 	  </a>
-	  <a href={"?" + this.props.meals.dinner}>
+	  <a href={"?" + this.props.meals.dinner} onClick={this.showRecipeHandler}>
 	    <Meal meal={this.props.meals.dinner} />
 	  </a>
         </ul>
@@ -43,7 +50,7 @@ class Calendar extends React.Component {
   render() {
 
     const daysOfWeek = this.props.meals.map(
-      (day) => <Day key={day.day} meals={day} />
+      (day) => <Day key={day.day} meals={day} onShowRecipe={this.props.onShowRecipe} />
     );
 
     return (
@@ -133,7 +140,7 @@ class MealPlanner extends React.Component {
       <div>
         <h1>Meals for Week of {date}</h1>
         <hr />
-        <Calendar meals={this.props.meals} />
+        <Calendar meals={this.props.meals} onShowRecipe={this.props.onShowRecipe} />
         <NewMeal onMealChange={this.props.onMealChange} />
       </div>
     );
@@ -148,15 +155,10 @@ class App extends React.Component {
     this.state = {
       meals: this.props.meals,
       ingredients: [],
-      recipe: this.newRecipe()
+      recipe: '',
+      showPlanner: true
     };
 
-  }
-
-  newRecipe = () => {
-    const url = new URL(window.location.href);
-    //Strip leading `?' and URL Encoded Spaces
-    return url.search.replace(/^\?/, '').split('%20').join(" ");
   }
 
   handleMealChange = (meal) => {
@@ -169,7 +171,7 @@ class App extends React.Component {
 
     this.setState({
       meals: newMeals,
-      recipe: this.newRecipe()
+      recipe: ''
     });
 
   }
@@ -180,8 +182,8 @@ class App extends React.Component {
     this.setState({
       ingredients: ingredients
     });
-  }
 
+  }
 
   handleIngredientChange = (item, amount) => {
     this.state.ingredients.push({item: item, amount: amount});
@@ -190,12 +192,18 @@ class App extends React.Component {
     });
   }
 
+  toggleShowRecipe = (recipe) => {
+    this.setState({recipe: recipe});
+    this.setState({showPlanner: !this.state.showPlanner});
+  }
+
   render() {
-    if (this.state.recipe === "")
+    if (this.state.showPlanner)
       return (
 	<MealPlanner
 	  meals={this.state.meals}
-	  onMealChange={this.handleMealChange} />
+	  onMealChange={this.handleMealChange}
+	  onShowRecipe={this.toggleShowRecipe} />
       );
     else
       return (
@@ -203,6 +211,7 @@ class App extends React.Component {
 	  recipe={this.state.recipe}
 	  ingredients={this.state.ingredients}
 	  onIngredientChange={this.handleIngredientChange}
+	  onHideRecipe={this.toggleShowRecipe}
 	  onRemoveIngredient={this.handleRemoveIngredient}/>
       );
   }
@@ -276,6 +285,7 @@ class RecipePlanner extends React.Component {
             </tbody>
           </table>
         </form>
+	<button value="Save Recipe" onClick={this.props.onHideRecipe}>Save Recipe</button>
       </div>
     );
   }
@@ -306,7 +316,6 @@ class Ingredient extends React.Component {
     return ingredients;
   }
 }
-
 
 const meals = JSON.parse(document.getElementsByClassName('meals').item(0).attributes[1].value);
 ReactDOM.render(<App meals={meals} />, document.getElementById('root'));
