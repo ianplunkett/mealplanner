@@ -85,6 +85,7 @@ class NewMeal extends React.Component {
   handleSelectChange = (event) => {
     this.setState({ day: event.target.value });
   }
+
   handleSubmit = (event) => {
     this.props.onMealChange(this.state);
     event.preventDefault();
@@ -104,7 +105,6 @@ class NewMeal extends React.Component {
                  id="lunch"
                  value={this.state.lunch}
                  onChange={this.handleLunchChange} />
-
         </label>
         <br />
         <label>
@@ -153,12 +153,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      newMeals: this.props.newMeals,
       meals: this.props.meals,
       ingredients: [],
       recipe: '',
       showPlanner: true
     };
-
   }
 
   handleMealChange = (meal) => {
@@ -198,6 +198,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     if (this.state.showPlanner)
       return (
 	<MealPlanner
@@ -318,4 +319,6 @@ class Ingredient extends React.Component {
 }
 
 const meals = JSON.parse(document.getElementsByClassName('meals').item(0).attributes[1].value);
-ReactDOM.render(<App meals={meals} />, document.getElementById('root'));
+const newMeals = JSON.parse(document.getElementsByClassName('new-meals')[0].attributes[1].value);
+
+ReactDOM.render(<App newMeals={newMeals} meals={meals} />, document.getElementById('root'));
