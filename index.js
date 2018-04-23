@@ -27,17 +27,19 @@ class Day extends React.Component {
 
   render() {
     return (
-      <div className="meal-div">
-        <ul className="meal-list-wrap">
+        <ul className="meal-list-wrap meal-div">
           <li>{this.props.meals.day}</li>
-          <a href="" onClick={this.showRecipeHandler}>
-	    <Meal meal={this.props.meals.lunch} />
-	  </a>
-	  <a href={"?" + this.props.meals.dinner} onClick={this.showRecipeHandler}>
-	    <Meal meal={this.props.meals.dinner} />
-	  </a>
+	  <li>
+	    <a href="" onClick={this.showRecipeHandler}>
+	      <Meal meal={this.props.meals.lunch} />
+	    </a>
+	  </li>
+	  <li>
+	    <a href="" onClick={this.showRecipeHandler}>
+	      <Meal meal={this.props.meals.dinner} />
+	    </a>
+	  </li>
         </ul>
-      </div>
     );
   }
 }
@@ -53,11 +55,7 @@ class Calendar extends React.Component {
       (day) => <Day key={day.day} meals={day} onShowRecipe={this.props.onShowRecipe} />
     );
 
-    return (
-      <div>
-        {daysOfWeek}
-      </div>
-    );
+    return daysOfWeek;
   }
 }
 
@@ -98,32 +96,32 @@ class NewMeal extends React.Component {
     );
 
     return (
-      <form onSubmit={this.handleSubmit}>
+	<form onSubmit={this.handleSubmit}>
         <label>
-          Lunch:
-	  <input type="text"
-                 id="lunch"
-                 value={this.state.lunch}
-                 onChange={this.handleLunchChange} />
+        Lunch:
+	<input type="text"
+      id="lunch"
+      value={this.state.lunch}
+      onChange={this.handleLunchChange} />
         </label>
         <br />
         <label>
-          Dinner:
-	  <input type="text"
-                 id="dinner"
-                 value={this.state.dinner}
-                 onChange={this.handleDinnerChange} />
+        Dinner:
+	<input type="text"
+      id="dinner"
+      value={this.state.dinner}
+      onChange={this.handleDinnerChange} />
         </label>
         <br />
         <label>
-          Day:
-	  <select onChange={this.handleSelectChange}>
-            {daysOfWeek}
-          </select>
+        Day:
+	<select onChange={this.handleSelectChange}>
+        {daysOfWeek}
+      </select>
         </label>
         <br />
         <input type="submit" value="Submit" />
-      </form>
+	</form>
     );
   }
 }
@@ -140,8 +138,8 @@ class MealPlanner extends React.Component {
       <div>
         <h1>Meals for Week of {date}</h1>
         <hr />
-        <Calendar meals={this.props.meals} onShowRecipe={this.props.onShowRecipe} />
-        <NewMeal onMealChange={this.props.onMealChange} />
+        <Calendar {...this.props} />
+        <NewMeal {...this.props} />
       </div>
     );
   }
@@ -201,19 +199,19 @@ class App extends React.Component {
     console.log(this.state);
     if (this.state.showPlanner)
       return (
-	<MealPlanner
-	  meals={this.state.meals}
-	  onMealChange={this.handleMealChange}
-	  onShowRecipe={this.toggleShowRecipe} />
+	  <MealPlanner
+	meals={this.state.meals}
+	onMealChange={this.handleMealChange}
+	onShowRecipe={this.toggleShowRecipe} />
       );
     else
       return (
-	<RecipePlanner
-	  recipe={this.state.recipe}
-	  ingredients={this.state.ingredients}
-	  onIngredientChange={this.handleIngredientChange}
-	  onHideRecipe={this.toggleShowRecipe}
-	  onRemoveIngredient={this.handleRemoveIngredient}/>
+	  <RecipePlanner
+	recipe={this.state.recipe}
+	ingredients={this.state.ingredients}
+	onIngredientChange={this.handleIngredientChange}
+	onHideRecipe={this.toggleShowRecipe}
+	onRemoveIngredient={this.handleRemoveIngredient}/>
       );
   }
 }
@@ -250,30 +248,30 @@ class RecipePlanner extends React.Component {
           <table>
             <tbody>
               <tr>
-                <td>Item</td>
-                <td>Amount</td>
+		<td>Item</td>
+		<td>Amount</td>
 		<td>Remove</td>
               </tr>
               <Ingredient
-                items={this.props.ingredients}
+		items={this.props.ingredients}
 		onRemoveIngredient={this.props.onRemoveIngredient} />
               <tr>
-                <td>
-                  <input
-                    type="text"
-                    value={this.state.item}
+		<td>
+		  <input
+		    type="text"
+		    value={this.state.item}
 		    ref={(input)=> this.nameInput = input}
-                    onChange={this.handleItemChange}
-                    />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    value={this.state.amount}
-                    onChange={this.handleAmountChange}
-                    />
-                </td>
-                <td><input type="submit" value="Next" /></td>
+		    onChange={this.handleItemChange}
+		    />
+		</td>
+		<td>
+		  <input
+		    type="text"
+		    value={this.state.amount}
+		    onChange={this.handleAmountChange}
+		    />
+		</td>
+		<td><input type="submit" value="Next" /></td>
               </tr>
 	      <tr>
 		<td>Cooking Instructions</td>

@@ -26,8 +26,23 @@ const init = async () => {
         method: 'GET',
         path: '/index.js',
         handler: (request, h) => {
-
             return h.file('./index.js');
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/index2.html',
+        handler: (request, h) => {
+
+            return h.file('./index2.html');
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/index2.js',
+        handler: (request, h) => {
+            return h.file('./index2.js');
         }
     });
 
