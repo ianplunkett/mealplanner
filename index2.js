@@ -11,16 +11,15 @@ class Recipe extends React.Component {
       (ingredient,key) => <li key={key}><Ingredient {...ingredient} /></li>
     );
 
-
     const instructions = this.props.instructions.map(
       (instructions,key) => <li key={key}><Instructions {...instructions} /></li>
     );
 
     return (
       <div>
-	<h1>{this.props.name}</h1>
-	<ul>{ingredients}</ul>
-	<ul>{instructions}</ul>
+	<span>{this.props.name}</span>
+	<ul className="no-show"><li>Ingredients</li>{ingredients}</ul>
+	<ul className="no-show"><li>Instructions</li>{instructions}</ul>
       </div>
     );
   }
@@ -53,10 +52,7 @@ class Meal extends React.Component {
 
   render() {
     return (
-      <div>
-	<h2>{this.props.mealTime}</h2>
-	<Recipe {...this.props} />
-      </div>
+      <Recipe {...this.props} />
     );
   }
 }
@@ -68,10 +64,9 @@ class Day extends React.Component {
 
   render() {
     return (
-      <div>
-	<ul>
-	  <li>{this.props.day}</li>
-	  <li><Meal mealTime="lunch" {...this.props} /></li>
+      <div  className="meal">
+	<ul className="meal-list">
+	  <li className="header">{this.props.day}</li>
 	  <li><Meal mealTime="dinner" {...this.props} /></li>
 	</ul>
       </div>
@@ -90,14 +85,12 @@ class App extends React.Component {
   render() {
     const meals = this.state.rawInput.calendarDays.map(
       (day,key) => (
-	<div>
 	  <Day
 	    key={key}
 	    day={day.day}
 	    name={this.state.rawInput.recipes[day.lunch].name}
 	    ingredients={[{amount:'1oz',item:'water'},{amount:'1oz',item:'vinegar'}]}
 	    instructions={[{order:'1',item:'boil water'},{order:'2',item:'add vinegar'}]} />
-	</div>
       )
     );
     return meals;

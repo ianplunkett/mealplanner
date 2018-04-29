@@ -5,8 +5,13 @@ form {
 
 .meal-list {
     color: red;
-    height: 100px;
-    border-style: solid solid none solid;
+    height: 150px;
+    width: 150px;
+    border-style: solid solid solid solid;
+    list-style-type: none;
+    border-left-width: 10px;
+    padding: 0;
+
 }
 
 .meal-list-wrap {
@@ -19,4 +24,22 @@ form {
     display: inline-block;
     width: 200px;
     vertical-align: top;
+}
+
+.meal {
+    display: inline-flex;
+    width: 200px;
+    vertical-align:top;
+
+}
+
+.no-show {
+    visibility: hidden;
+    line-height:0;
+}
+
+.header {
+    color: blue;
+    font-weight: bold;
+    border-style: none none solid none;
 }
