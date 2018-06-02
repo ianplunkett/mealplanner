@@ -2,16 +2,21 @@
   "name": "cookbook",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "private": true,
   "dependencies": {
     "hapi": "^17.3.1",
     "inert": "^5.1.0",
-    "mongodb": "^3.0.7",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "mongodb": "^3.0.7"
   },
   "devDependencies": {
-    "webpack": "^4.6.0"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^2.1.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
