@@ -1,5 +1,8 @@
 'use strict';
 import React from "react";
+import ReactDOM from "react-dom";
+import './styles.css';
+
 
 
 class Recipe extends React.Component {
@@ -87,12 +90,12 @@ class App extends React.Component {
   render() {
     const meals = this.state.rawInput.calendarDays.map(
       (day,key) => (
-	  <Day
-	    key={key}
-	    day={day.day}
-	    name={this.state.rawInput.recipes[day.lunch].name}
-	    ingredients={[{amount:'1oz',item:'water'},{amount:'1oz',item:'vinegar'}]}
-	    instructions={[{order:'1',item:'boil water'},{order:'2',item:'add vinegar'}]} />
+	<Day
+	  key={key}
+	  day={day.day}
+	  name={this.state.rawInput.recipes[day.lunch].name}
+	  ingredients={[{amount:'1oz',item:'water'},{amount:'1oz',item:'vinegar'}]}
+	  instructions={[{order:'1',item:'boil water'},{order:'2',item:'add vinegar'}]} />
       )
     );
     return meals;
@@ -100,7 +103,9 @@ class App extends React.Component {
 }
 
 const newMeals = JSON.parse(
-  document.getElementsByClassName('new-meals')[0].attributes[1].value);
+  document.getElementsByClassName('new-meals')[0].attributes[1].value
+);
+  
 
 ReactDOM.render(
   <App rawInput={newMeals} />,

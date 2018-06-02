@@ -18,40 +18,15 @@ const init = async () => {
         path: '/',
         handler: (request, h) => {
 
-            return h.file('./index.html');
+            return h.file('./dist/index.html');
         }
     });
 
     server.route({
         method: 'GET',
-        path: '/index.js',
+        path: '/mealplanner.js',
         handler: (request, h) => {
-            return h.file('./index.js');
-        }
-    });
-    server.route({
-        method: 'GET',
-        path: '/index2.html',
-        handler: (request, h) => {
-
-            return h.file('./index2.html');
-        }
-    });
-
-    server.route({
-        method: 'GET',
-        path: '/index2.js',
-        handler: (request, h) => {
-            return h.file('./index2.js');
-        }
-    });
-
-    server.route({
-        method: 'GET',
-        path: '/styles.css',
-        handler: (request, h) => {
-
-            return h.file('./styles.css');
+            return h.file('./dist/mealplanner.js');
         }
     });
 
@@ -60,7 +35,6 @@ const init = async () => {
 };
 
 process.on('unhandledRejection', (err) => {
-
     console.log(err);
     process.exit(1);
 });
