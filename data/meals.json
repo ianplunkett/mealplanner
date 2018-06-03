@@ -1,0 +1,97 @@
+{
+  "calendarDays": [
+    {
+      "day": "Sunday",
+      "lunch": "meal0",
+      "dinner": "meal1"
+    },
+    {
+      "day": "Monday",
+      "lunch": "meal2",
+      "dinner": "meal3"
+    },
+    {
+      "day": "Tuesday",
+      "lunch": "meal4",
+      "dinner": "meal5"
+    },
+    {
+      "day": "Wednesday",
+      "lunch": "meal6",
+      "dinner": "meal7"
+    },
+    {
+      "day": "Thursday",
+      "lunch": "meal8",
+      "dinner": "meal9"
+    },
+    {
+      "day": "Friday",
+      "lunch": "meal10",
+      "dinner": "meal11"
+    },
+    {
+      "day": "Saturday",
+      "lunch": "meal12",
+      "dinner": "meal13"
+    }
+  ],
+  "meals": {
+    "meal0" : {
+      "name": "Kale Salad",
+      "ingredients": {}
+    },
+    "meal1" : {
+      "name": "Chick Cauliflower Rice",
+      "ingredients": {}
+    },
+    "meal2" : {
+      "name": "Salad with veggies nuts & turkey pastrami or chicken",
+      "ingredients": {}
+    },
+    "meal3" : {
+      "name": "Burger with veggies",
+      "ingredients": {}
+    },
+    "meal4" : {
+      "name": "Burgers leftover w/ veggies",
+      "ingredients": {}
+    },
+    "meal5" : {
+      "name": "Chicken meatballs with salad",
+      "ingredients": {}
+    },
+    "meal6" : {
+      "name": "Salad w/ leftovers",
+      "ingredients": {}
+    },
+    "meal7" : {
+      "name": "Pork eggroll in a bowl",
+      "ingredients": {}
+    },
+    "meal8" : {
+      "name": "Leftovers pork eggroll in a bowl",
+      "ingredients": {}
+    },
+    "meal9" : {
+      "name": "Fish & greens",
+      "ingredients": {}
+    },
+    "meal10" : {
+      "name": "Fish salad",
+      "ingredients": {}
+    },
+    "meal11" : {
+      "name": "BBQ Chicken",
+      "ingredients": {}
+    },
+    "meal12" : {
+      "name": "Leftover chicken salad",
+      "ingredients": {}
+    },
+    "meal13" : {
+      "name": "BBQ steaks",
+      "ingredients": {}
+    }
+  }
+}
